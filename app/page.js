@@ -292,10 +292,8 @@ export default function Home() {
       setMessages((prev) => [...prev, { role: "assistant", content: reply }]);
     }
 
-    // 1. Collect backend toolCalls if returned
     const incomingNotes = Array.isArray(data.toolCalls) ? [...data.toolCalls] : [];
 
-    // 2. Fallback deterministic extraction so notes never get missed by the LLM
     if (incomingNotes.length === 0 && effectiveUserText) {
       const extracted = extractDeterministicNote(effectiveUserText, messages);
       if (extracted) {
@@ -418,24 +416,24 @@ export default function Home() {
     : "from-cyan-400 via-teal-400 to-emerald-500 shadow-cyan-500/35";
 
   return (
-    <main className="min-h-screen bg-[#060A14] text-slate-100 flex flex-col items-center justify-center p-4 sm:p-8 lg:p-10">
+    <main className="min-h-screen bg-[#060A14] text-slate-100 flex flex-col items-center justify-center p-4 sm:p-8 lg:p-12">
       {/* Ambient AI Glow */}
-      <div className="pointer-events-none fixed top-12 left-1/2 -translate-x-1/2 w-[720px] h-[400px] rounded-full bg-cyan-500/10 blur-3xl" />
+      <div className="pointer-events-none fixed top-10 left-1/2 -translate-x-1/2 w-[900px] h-[480px] rounded-full bg-cyan-500/10 blur-3xl" />
 
-      {/* Main AI Voice Agent Container */}
-      <div className="relative z-10 w-full max-w-4xl bg-slate-900/75 backdrop-blur-2xl border border-white/10 rounded-3xl p-6 sm:p-9 lg:p-10 shadow-2xl">
+      {/* Main AI Voice Agent Container (Expanded Desktop Studio Scale) */}
+      <div className="relative z-10 w-full max-w-6xl bg-slate-900/75 backdrop-blur-2xl border border-white/10 rounded-3xl p-6 sm:p-10 lg:p-12 shadow-2xl">
         {/* Top Status & AI Identity Bar */}
-        <div className="flex flex-wrap items-center justify-between gap-3 pb-5 border-b border-white/10">
-          <div className="flex items-center gap-2.5">
-            <span className="px-3 py-1 rounded-full bg-cyan-500/15 border border-cyan-400/30 text-cyan-300 text-xs font-semibold tracking-wide">
+        <div className="flex flex-wrap items-center justify-between gap-3 pb-6 border-b border-white/10">
+          <div className="flex items-center gap-3">
+            <span className="px-3.5 py-1.5 rounded-full bg-cyan-500/15 border border-cyan-400/30 text-cyan-300 text-xs sm:text-sm font-semibold tracking-wide">
               ✦ AI VOICE AGENT
             </span>
           </div>
 
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-3">
             <button
               onClick={() => setAutoListen((prev) => !prev)}
-              className={`px-3 py-1.5 rounded-full text-xs font-medium border transition cursor-pointer ${
+              className={`px-3.5 py-2 rounded-full text-xs sm:text-sm font-medium border transition cursor-pointer ${
                 autoListen
                   ? "bg-emerald-500/20 border-emerald-400/40 text-emerald-300"
                   : "bg-white/5 border-white/10 text-slate-400 hover:text-slate-200"
@@ -453,7 +451,7 @@ export default function Home() {
                   setActionLog([]);
                   setStatusText("Tap the AI orb to speak");
                 }}
-                className="px-3 py-1.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-xs text-slate-400 hover:text-white transition cursor-pointer"
+                className="px-3.5 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-xs sm:text-sm text-slate-400 hover:text-white transition cursor-pointer"
               >
                 Reset
               </button>
@@ -462,36 +460,36 @@ export default function Home() {
         </div>
 
         {/* Agent Profile & Capabilities */}
-        <div className="text-center mt-6">
-          <h1 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+        <div className="text-center mt-7">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white tracking-tight">
             Arjun T P · Conversational AI Agent
           </h1>
-          <p className="text-xs sm:text-sm text-slate-400 mt-1.5">
+          <p className="text-xs sm:text-sm lg:text-base text-slate-400 mt-2">
             Natural Voice Q&A · Live Note Memory · Instant Barge-In Interruption
           </p>
         </div>
 
         {/* Center Interactive AI Voice Orb */}
-        <div className="my-8 flex flex-col items-center">
+        <div className="my-10 flex flex-col items-center">
           <div className="relative flex items-center justify-center">
             <span
-              className={`absolute -inset-3.5 rounded-full border border-cyan-400/25 ${
+              className={`absolute -inset-4 rounded-full border border-cyan-400/25 ${
                 isRecording || isSpeaking || loading ? "animate-ping opacity-50" : "opacity-60"
               }`}
             />
             <button
               onClick={toggleRecording}
               aria-label="Tap the AI orb to speak"
-              className={`relative z-10 w-28 h-28 sm:w-32 sm:h-32 rounded-full bg-gradient-to-tr ${orbStyle} flex flex-col items-center justify-center shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer`}
+              className={`relative z-10 w-32 h-32 lg:w-36 lg:h-36 rounded-full bg-gradient-to-tr ${orbStyle} flex flex-col items-center justify-center shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer`}
             >
               {loading ? (
-                <div className="w-10 h-10 border-3 border-white/30 border-t-white rounded-full animate-spin" />
+                <div className="w-11 h-11 border-3 border-white/30 border-t-white rounded-full animate-spin" />
               ) : isSpeaking ? (
-                <div className="flex items-center gap-1.5 h-9">
-                  <span className="w-1.5 h-5 bg-white rounded-full animate-bounce [animation-delay:-0.2s]" />
-                  <span className="w-1.5 h-9 bg-white rounded-full animate-bounce" />
-                  <span className="w-1.5 h-7 bg-white rounded-full animate-bounce [animation-delay:-0.1s]" />
-                  <span className="w-1.5 h-4 bg-white rounded-full animate-bounce [animation-delay:-0.3s]" />
+                <div className="flex items-center gap-1.5 h-10">
+                  <span className="w-1.5 h-6 bg-white rounded-full animate-bounce [animation-delay:-0.2s]" />
+                  <span className="w-1.5 h-10 bg-white rounded-full animate-bounce" />
+                  <span className="w-1.5 h-8 bg-white rounded-full animate-bounce [animation-delay:-0.1s]" />
+                  <span className="w-1.5 h-5 bg-white rounded-full animate-bounce [animation-delay:-0.3s]" />
                 </div>
               ) : (
                 <>
@@ -501,7 +499,7 @@ export default function Home() {
                     viewBox="0 0 24 24"
                     strokeWidth={2}
                     stroke="currentColor"
-                    className="w-9 h-9 text-white"
+                    className="w-10 h-10 text-white"
                   >
                     <path
                       strokeLinecap="round"
@@ -509,7 +507,7 @@ export default function Home() {
                       d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 1.5a3.75 3.75 0 00-3.75 3.75v6a3.75 3.75 0 007.5 0v-6A3.75 3.75 0 0012 1.5z"
                     />
                   </svg>
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-white/95 mt-1">
+                  <span className="text-xs font-bold uppercase tracking-wider text-white/95 mt-1.5">
                     {isRecording ? "Send" : "Speak"}
                   </span>
                 </>
@@ -517,14 +515,14 @@ export default function Home() {
             </button>
           </div>
 
-          <p className="mt-4 text-sm sm:text-base font-medium text-cyan-200">
+          <p className="mt-5 text-sm sm:text-base lg:text-lg font-medium text-cyan-200">
             {statusText}
           </p>
         </div>
 
         {/* Interactive Topic & Action Chips */}
-        <div className="mb-5">
-          <div className="flex flex-wrap items-center justify-center gap-2">
+        <div className="mb-6">
+          <div className="flex flex-wrap items-center justify-center gap-2.5">
             {QUICK_TOPICS.map((item, i) => (
               <button
                 key={i}
@@ -542,7 +540,7 @@ export default function Home() {
                   }
                 }}
                 disabled={loading}
-                className="text-xs sm:text-sm px-3.5 py-2 rounded-full bg-white/[0.04] hover:bg-cyan-500/15 border border-white/10 hover:border-cyan-400/40 text-slate-300 hover:text-cyan-200 transition disabled:opacity-40 cursor-pointer"
+                className="text-xs sm:text-sm lg:text-base px-4 py-2.5 rounded-full bg-white/[0.04] hover:bg-cyan-500/15 border border-white/10 hover:border-cyan-400/40 text-slate-300 hover:text-cyan-200 transition disabled:opacity-40 cursor-pointer"
               >
                 {item.label}
               </button>
@@ -552,26 +550,26 @@ export default function Home() {
 
         {/* AI Memory / Saved Notes Card */}
         {actionLog.length > 0 && (
-          <div className="mb-5 rounded-2xl bg-amber-500/10 border border-amber-400/25 p-4">
-            <div className="flex items-center justify-between mb-2.5">
-              <span className="text-xs sm:text-sm font-semibold text-amber-300 flex items-center gap-1.5">
+          <div className="mb-6 rounded-2xl bg-amber-500/10 border border-amber-400/25 p-5">
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-xs sm:text-sm lg:text-base font-semibold text-amber-300 flex items-center gap-1.5">
                 ✦ AI Session Memory ({actionLog.length})
               </span>
               <button
                 onClick={copyAllNotes}
-                className="text-xs px-2.5 py-1 rounded-md bg-amber-500/20 hover:bg-amber-500/30 text-amber-200 transition cursor-pointer"
+                className="text-xs sm:text-sm px-3 py-1 rounded-md bg-amber-500/20 hover:bg-amber-500/30 text-amber-200 transition cursor-pointer"
               >
                 {copiedNotes ? "Copied!" : "Copy Notes"}
               </button>
             </div>
-            <div className="space-y-2 max-h-28 overflow-y-auto">
+            <div className="space-y-2 max-h-32 overflow-y-auto">
               {actionLog.map((note, idx) => (
                 <div
                   key={idx}
-                  className="text-xs sm:text-sm text-amber-100/90 flex items-center justify-between bg-black/25 px-3.5 py-2 rounded-lg"
+                  className="text-xs sm:text-sm lg:text-base text-amber-100/90 flex items-center justify-between bg-black/25 px-4 py-2.5 rounded-lg"
                 >
                   <span>• {note.data?.summary || note.data?.action}</span>
-                  <span className="text-[11px] text-amber-300/70 ml-2 shrink-0">
+                  <span className="text-xs text-amber-300/70 ml-3 shrink-0">
                     {note.timestamp}
                   </span>
                 </div>
@@ -581,10 +579,10 @@ export default function Home() {
         )}
 
         {/* Conversation Feed */}
-        <div className="w-full bg-slate-950/75 border border-white/10 rounded-2xl p-4 sm:p-5 h-64 sm:h-72 overflow-y-auto space-y-3.5">
+        <div className="w-full bg-slate-950/75 border border-white/10 rounded-2xl p-5 sm:p-6 h-72 sm:h-80 lg:h-96 overflow-y-auto space-y-4">
           {messages.length === 0 ? (
-            <div className="h-full flex flex-col items-center justify-center text-center px-4">
-              <p className="text-sm sm:text-base text-slate-400">
+            <div className="h-full flex flex-col items-center justify-center text-center px-6">
+              <p className="text-sm sm:text-base lg:text-lg text-slate-400">
                 Tap the AI orb to speak, pick a topic pill above, or type below to start chatting.
               </p>
             </div>
@@ -596,14 +594,14 @@ export default function Home() {
                   m.role === "user" ? "items-end" : "items-start"
                 }`}
               >
-                <div className="flex items-center gap-2 mb-1 px-1">
-                  <span className="text-[11px] uppercase tracking-wider text-slate-500 font-semibold">
+                <div className="flex items-center gap-2.5 mb-1.5 px-1">
+                  <span className="text-xs uppercase tracking-wider text-slate-500 font-semibold">
                     {m.role === "user" ? "You" : "Arjun AI"}
                   </span>
                   {m.role === "assistant" && (
                     <button
                       onClick={() => speakReply(m.content)}
-                      className="text-[11px] text-cyan-400 hover:text-cyan-300 transition cursor-pointer"
+                      className="text-xs text-cyan-400 hover:text-cyan-300 transition cursor-pointer"
                       title="Replay voice"
                     >
                       🔊 Replay
@@ -611,7 +609,7 @@ export default function Home() {
                   )}
                 </div>
                 <div
-                  className={`max-w-[82%] px-4 py-3 rounded-2xl text-sm sm:text-base leading-relaxed ${
+                  className={`max-w-[80%] px-5 py-3.5 rounded-2xl text-sm sm:text-base lg:text-lg leading-relaxed ${
                     m.role === "user"
                       ? "bg-slate-800 text-slate-100 rounded-br-sm"
                       : "bg-cyan-500/10 border border-cyan-500/20 text-cyan-50 rounded-bl-sm"
@@ -626,19 +624,19 @@ export default function Home() {
         </div>
 
         {/* Text Input Bar */}
-        <form onSubmit={handleTextSubmit} className="w-full mt-4 flex gap-2.5">
+        <form onSubmit={handleTextSubmit} className="w-full mt-5 flex gap-3">
           <input
             ref={inputRef}
             type="text"
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
             placeholder="Ask anything or say 'Take a note...'"
-            className="flex-1 bg-slate-950/85 border border-white/10 rounded-xl px-4 py-3 text-sm sm:text-base text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400/50"
+            className="flex-1 bg-slate-950/85 border border-white/10 rounded-xl px-5 py-3.5 text-sm sm:text-base lg:text-lg text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400/50"
           />
           <button
             type="submit"
             disabled={loading || !inputText.trim()}
-            className="bg-gradient-to-r from-cyan-400 to-emerald-400 hover:opacity-90 disabled:opacity-30 text-slate-950 font-semibold px-6 py-3 rounded-xl text-sm sm:text-base transition cursor-pointer"
+            className="bg-gradient-to-r from-cyan-400 to-emerald-400 hover:opacity-90 disabled:opacity-30 text-slate-950 font-semibold px-7 py-3.5 rounded-xl text-sm sm:text-base lg:text-lg transition cursor-pointer"
           >
             Send
           </button>
